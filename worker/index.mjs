@@ -86,17 +86,21 @@ export async function handleRequest(request, env = {}, ctx = {}, dependencies = 
     if (cached) return cached;
     const upstreamFetch = dependencies.fetch || fetch;
     const response = await upstreamFetch(`${SOURCE}${levelId}.txt`, {
-      signal: AbortSignal.timeout(12000), redirect: "error",
+      signal: AbortSignal.timeout(12000), redirect: "manual",
     });
     if (response.status === 404 || response.status === 403) return reply("Level not found.", 404);
     if (response.status === 429) return reply("Please try again shortly.", 429, { "Retry-After": "30" });
-    if (!response.ok || !response.body) return reply("Level service unavailable.", 502);
+    if (!response.ok || !response.body) {
+      console.warn("Level source request failed:", response.status);
+      return reply("Level service unavailable.", 502);
+    }
     const encoded = new TextDecoder().decode(await readLimited(response.body, MAX_COMPRESSED_TEXT));
     const value = await decodeLevel(encoded);
     const result = reply(value, 200, { "Cache-Control": "public, max-age=300" });
     if (cache && ctx.waitUntil) ctx.waitUntil(cache.put(cacheKey, result.clone()));
     return result;
-  } catch {
+  } catch (error) {
+    console.warn("Level lookup failed:", error.message);
     return reply("Level service unavailable. Please try again.", 502);
   }
 }

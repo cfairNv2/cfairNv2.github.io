@@ -59,6 +59,16 @@ test("leading zeroes are retained in original storage requests", async () => {
   assert.equal(url, "https://s3.amazonaws.com/bucket.thewayoftheninja.org/001234.txt");
 });
 
+test("upstream redirects are not followed in the Cloudflare runtime", async () => {
+  const response = await handleRequest(request(), {}, {}, {
+    fetch: async (_url, options) => {
+      assert.equal(options.redirect, "manual");
+      return new Response(null, { status: 302, headers: { Location: "https://other.example" } });
+    },
+  });
+  assert.equal(response.status, 502);
+});
+
 test("missing levels, rate limiting and upstream failures never return import data", async () => {
   for (const [upstream, expected] of [[404, 404], [403, 404], [429, 429], [500, 502]]) {
     const response = await handleRequest(request(), {}, {}, {
