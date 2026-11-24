@@ -8,6 +8,20 @@
 .level-data-link:hover { background: var(--active); color: var(--background); }
 .level-data-link:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 
+.level-data-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  min-height: 52px;
+  margin-bottom: 24px;
+  padding: 8px 24px;
+  border: 2px solid var(--ink);
+  font-size: 24px;
+}
+.level-data-back:hover { background: var(--active); color: var(--background); }
+.level-data-back:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
 .level-data-lookup h2 { margin: 0 0 20px; font-size: 32px; font-weight: 400; }
 .level-data-form.player-search { justify-content: flex-start; flex-wrap: wrap; padding-top: 0; }
 .level-data-form .player-search-status { flex-basis: 100%; min-height: 24px; font-size: 16px; }
