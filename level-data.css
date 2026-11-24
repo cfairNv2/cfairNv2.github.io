@@ -1,0 +1,30 @@
+.player-search .level-data-link {
+  flex: 0 0 auto;
+  min-height: 34px;
+  padding: 4px 12px;
+  border: 1px solid var(--ink);
+  white-space: nowrap;
+}
+.level-data-link:hover { background: var(--active); color: var(--background); }
+.level-data-link:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+.level-data-lookup h2 { margin: 0 0 20px; font-size: 32px; font-weight: 400; }
+.level-data-form.player-search { justify-content: flex-start; flex-wrap: wrap; padding-top: 0; }
+.level-data-form .player-search-status { flex-basis: 100%; min-height: 24px; font-size: 16px; }
+.level-data-form button:disabled { cursor: wait; opacity: .6; }
+.level-data-result { margin-top: 20px; }
+.level-data-result .level-data-status { display: block; min-height: 24px; margin-top: 8px; }
+.level-data-lookup .level-data-text { background: #fff; }
+
+@media (max-width: 680px) {
+  #player-search-form:has(.level-data-link:not([hidden])) {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 8px;
+  }
+  #player-search-form .player-search-status { grid-column: 1 / -1; }
+  #player-search-form .level-data-link { padding-inline: 8px; }
+  .level-data-form.player-search { flex-direction: row; }
+  .level-data-form .player-search-box { width: min(380px, 100%); }
+  .level-data-form .player-search-status { margin: 0; }
+}

@@ -1,0 +1,10 @@
+{
+	"private": true,
+	"scripts": {
+		"test": "node --test --test-isolation=none tests/level-data.test.mjs",
+		"deploy:worker": "wrangler deploy"
+	},
+	"devDependencies": {
+		"wrangler": "4.167.0"
+	}
+}
