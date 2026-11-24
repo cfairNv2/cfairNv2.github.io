@@ -1,4 +1,23 @@
 (() => {
+  const back = document.querySelector(".level-data-back");
+  const returnTo = new URLSearchParams(window.location.search).get("returnTo");
+  // Carry the full source route through reloads and opening Level Data in a new tab.
+  // Older links can use the referrer; direct visits keep the User Levels fallback.
+  for (const source of [returnTo, document.referrer]) {
+    if (!source) continue;
+    try {
+      const destination = new URL(source, window.location.origin);
+      if (destination.origin === window.location.origin
+          && /^\/userlevel(?:\/|$)/.test(destination.pathname)
+          && !/^\/userlevel\/level-data(?:\/|$)/.test(destination.pathname)) {
+        back.href = destination.pathname + destination.search + destination.hash;
+        break;
+      }
+    } catch {
+      // Ignore malformed return addresses and keep the safe fallback.
+    }
+  }
+
   const form = document.getElementById("level-data-form");
   const input = document.getElementById("level-id-input");
   const enter = document.getElementById("level-data-enter");

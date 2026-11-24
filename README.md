@@ -12,6 +12,10 @@ with a copy button. It is not linked from Home or the Metanet section.
 The URL is public; limiting navigation links is not access control.
 
 `level-data-link.js` adds the link and follows the shared app's route changes.
+It carries the complete source path, query and hash in a `returnTo` parameter
+so Back restores the selected User Levels page, even after a reload or when
+opened in another tab. Return links stay within this site's User Levels section;
+older links can use the referrer, and direct visits fall back to `/userlevel`.
 `level-data.css` supplies only the new feature's styles; the existing gray
 palette, font, white text box and copy-button styles come from the shared site.
 The standalone page does not load leaderboard data.

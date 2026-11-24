@@ -14,6 +14,9 @@
   const sync = () => {
     const route = window.Nv2Routes?.read();
     link.hidden = !route || route.page === "home" || route.params.get("levels") !== "user";
+    const destination = new URL("/userlevel/level-data/", window.location.origin);
+    destination.searchParams.set("returnTo", window.location.pathname + window.location.search + window.location.hash);
+    link.href = destination.href;
   };
   new MutationObserver(sync).observe(document.body, {
     attributes: true,
